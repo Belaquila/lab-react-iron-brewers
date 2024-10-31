@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import mokeBeers from "../assets/beers.json"
 
 function AddBeerPage() {
   // State variables to store the values of the form inputs. You can leave these as they are.
@@ -39,9 +40,9 @@ function AddBeerPage() {
 
     // Construct the form data to send in the request
     const newBeer = {
-      name,
-      tagline,
-      description,
+      name: name,
+      tagline : tagline,
+      description : description,
       image_url: imageUrl,
       first_brewed: firstBrewed,
       brewers_tips: brewersTips,
@@ -49,12 +50,20 @@ function AddBeerPage() {
       contributed_by: contributedBy,
     };
 
-    axios.post(`${url}`, newBeer)
+    axios.post(`${url}/new`, newBeer)
     .then( response => {
+
 
         // clear form
         setName("")
-        
+        setTagline("");
+        setDescription("");
+        setImageUrl("");
+        setFirstBrewed("");
+        setBrewersTips("");
+        setAttenuationLevel("");
+        setContributedBy("");
+
         navigate("/beers");
 
     })
@@ -68,7 +77,7 @@ function AddBeerPage() {
   return (
     <>
       <div className="d-inline-flex flex-column w-100 p-4">
-        <form>
+        <form onSubmit={handleSubmit}>
           <label>Name</label>
           <input
             className="form-control mb-4"
@@ -156,7 +165,7 @@ function AddBeerPage() {
             value={contributedBy}
             onChange={handleContributedBy}
           />
-          <button className="btn btn-primary btn-round">Add Beer</button>
+          <button type="submit" className="btn btn-primary btn-round">Add Beer</button>
         </form>
       </div>
     </>
